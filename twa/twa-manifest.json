@@ -1,0 +1,56 @@
+﻿{
+    "packageId":  "work.maneki.app",
+    "host":  "www.maneki.work",
+    "name":  "Maneki",
+    "launcherName":  "Maneki",
+    "display":  "standalone",
+    "themeColor":  "#FAFAF7",
+    "themeColorDark":  "#0F0F12",
+    "navigationColor":  "#FAFAF7",
+    "navigationColorDark":  "#0F0F12",
+    "navigationDividerColor":  "#E5E5DE",
+    "navigationDividerColorDark":  "#2A2A30",
+    "backgroundColor":  "#FAFAF7",
+    "enableNotifications":  false,
+    "startUrl":  "/app",
+    "iconUrl":  "https://www.maneki.work/icons/icon-512.png",
+    "maskableIconUrl":  "https://www.maneki.work/icons/maskable-512.png",
+    "splashScreenFadeOutDuration":  300,
+    "signingKey":  {
+                       "path":  "./android.keystore",
+                       "alias":  "maneki"
+                   },
+    "appVersionName":  "1.2.0",
+    "appVersionCode":  4,
+    "shortcuts":  [
+
+                  ],
+    "generatorApp":  "bubblewrap-cli",
+    "webManifestUrl":  "https://www.maneki.work/manifest.webmanifest",
+    "fallbackType":  "customtabs",
+    "features":  {
+
+                 },
+    "alphaDependencies":  {
+                              "enabled":  false
+                          },
+    "enableSiteSettingsShortcut":  true,
+    "isChromeOSOnly":  false,
+    "isMetaQuest":  false,
+    "fullScopeUrl":  "https://www.maneki.work/",
+    "minSdkVersion":  21,
+    "orientation":  "default",
+    "fingerprints":  [
+
+                     ],
+    "additionalTrustedOrigins":  [
+
+                                 ],
+    "retainedBundles":  [
+
+                        ],
+    "displayOverride":  [
+
+                        ],
+    "appVersion":  "1.2.0"
+}
