@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isMwaCapable, signInWithSeekerWallet } from "@/lib/solana-signin";
+import { canWalletSignIn, isMwaCapable, preloadMwa, signInWithSeekerWallet } from "@/lib/solana-signin";
 import { invalidateSavedCache } from "@/lib/saved-jobs-client";
+import { migrateLocalSaves } from "@/lib/local-saves";
 import { trackEvent } from "@/lib/analytics";
 
 /** Glifo Solana (i tre tratti) in currentColor. */
@@ -33,7 +34,12 @@ export default function SolanaSignInButton({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setCapable(isMwaCapable());
+    // Visibile dove un sign-in può riuscire: provider iniettato (browser
+    // del wallet, estensione) oppure Android con MWA.
+    setCapable(canWalletSignIn());
+    // SDK scaricato ORA: al tap l'intent verso il wallet deve partire
+    // subito o Chrome lo blocca (user gesture scaduto).
+    if (isMwaCapable()) void preloadMwa();
   }, []);
 
   if (!capable) return null;
@@ -46,6 +52,8 @@ export default function SolanaSignInButton({
     const result = await signInWithSeekerWallet();
     if (result.ok) {
       invalidateSavedCache(); // i saved jobs sono del nuovo utente
+      // Le stelle messe da anonimo seguono l'utente sull'account.
+      migrateLocalSaves().catch(() => {});
       trackEvent("app_wallet_signin_ok", { source });
       onSignedIn();
     } else {
@@ -66,9 +74,16 @@ export default function SolanaSignInButton({
         {busy ? "OPENING YOUR WALLET…" : "SIGN IN WITH SOLANA"}
       </button>
       {error && (
-        <p className="font-sans text-[12px] text-ink-dim mt-2 text-center" role="alert">
-          Wallet sign-in didn&apos;t complete. Try again, or use email below.
-        </p>
+        <div className="mt-2 text-center" role="alert">
+          <p className="font-sans text-[12px] text-ink-dim">
+            {/no.*wallet|not found/i.test(error)
+              ? "No wallet answered. Open this page from your wallet's built-in browser (Phantom → globe tab) and tap again."
+              : "Wallet sign-in didn't complete. Try again, or use email below."}
+          </p>
+          <p className="font-mono text-[10px] tracking-wide text-ink-dim opacity-70 mt-1 break-words">
+            {error}
+          </p>
+        </div>
       )}
     </div>
   );
