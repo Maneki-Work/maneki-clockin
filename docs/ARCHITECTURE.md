@@ -55,9 +55,9 @@ Everything below was built for this hackathon, mobile-first.
   `components/app/CompanyDeck.tsx`, `lib/company-hunt.ts`): a second deck
   for employers; follow a company and their new roles jump to the top of
   your catch.
-- **Anonymous-first** (`lib/local-saves.ts`): stars and follows work
-  before sign-in, stored locally, and migrate into the account at login —
-  the funnel never blocks on auth.
+- **Local-first state** (`lib/local-saves.ts`): stars and follows are
+  written locally first and migrate into the wallet account at sign-in —
+  nothing is lost crossing the auth boundary.
 - **Onboarding** (`app/app/start/page.tsx`): the hunter card — three
   Tinder-style multi-select questions (roles, places, skills), then the
   reveal: your card, today's catch count, and the SKR verdict. Sign-in is
