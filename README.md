@@ -92,3 +92,9 @@ Work in progress — hackathon deadline Oct 8, 2026.
 Next.js (App Router) · Supabase (Postgres + Auth, Web3/Solana provider) ·
 Mobile Wallet Adapter (`@solana-mobile/wallet-adapter-mobile`) · Solana RPC ·
 TWA (Bubblewrap) for the Android APK · Vercel.
+
+## License
+
+© Maneki (maneki.work). This source is published for CLOCK IN hackathon
+judging and code verification only. **All rights reserved** — no license is
+granted to copy, modify, or reuse this code.
