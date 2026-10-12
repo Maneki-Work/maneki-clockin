@@ -79,13 +79,15 @@ consumes it over the API. See
 ## Try it
 
 - **Web (any phone):** https://www.maneki.work/app
-- **APK:** TWA over the same URL — Solana dApp Store listing in progress.
+- **APK:** signed release APK (TWA over the same URL) attached to this
+  repo's GitHub Release, together with the demo video and pitch deck —
+  Solana dApp Store listing in progress.
 - On Android, sign-in opens your MWA wallet (Seed Vault on Seeker, Phantom
   elsewhere); holding 1+ SKR puts on the golden collar.
 
 ## Status
 
-Work in progress — hackathon deadline Oct 8, 2026.
+Submitted to CLOCK IN (deadline extended to Oct 12, 2026).
 
 ## Stack
 
