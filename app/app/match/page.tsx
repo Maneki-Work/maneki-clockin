@@ -8,7 +8,7 @@ import { ManekiMark } from "@/components/Logo";
 import { signalAppReady } from "@/components/AppSplash";
 import SolanaSignInButton from "@/components/SolanaSignInButton";
 import { trackEvent } from "@/lib/analytics";
-import type { MatchResultItem } from "@/lib/match-pipeline";
+import type { MatchResultItem } from "@/lib/match-contract";
 
 type SkrStatus = { wallet: string | null; balance: number | null; pro: boolean; minRequired: number };
 

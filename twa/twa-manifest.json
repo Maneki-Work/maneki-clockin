@@ -20,8 +20,8 @@
                        "path":  "./android.keystore",
                        "alias":  "maneki"
                    },
-    "appVersionName":  "1.2.0",
-    "appVersionCode":  4,
+    "appVersionName":  "1.2.1",
+    "appVersionCode":  5,
     "shortcuts":  [
 
                   ],
@@ -41,7 +41,10 @@
     "minSdkVersion":  21,
     "orientation":  "default",
     "fingerprints":  [
-
+                         {
+                             "name":  "release",
+                             "value":  "6F:5C:4C:9F:57:95:E8:86:55:D1:BF:F3:E7:B8:00:89:96:5F:CB:0B:E5:59:20:78:4D:B9:3E:66:D7:68:49:90"
+                         }
                      ],
     "additionalTrustedOrigins":  [
 
@@ -52,5 +55,5 @@
     "displayOverride":  [
 
                         ],
-    "appVersion":  "1.2.0"
+    "appVersion":  "1.2.1"
 }

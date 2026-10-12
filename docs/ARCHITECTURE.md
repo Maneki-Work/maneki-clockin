@@ -88,9 +88,14 @@ the hunter profile attach to the wallet identity and follow the user
 across reinstalls and devices.
 
 Wallet accounts have no email, while parts of the platform key users by
-email. `lib/wallet-user.ts` extracts the wallet address from every GoTrue
-identity shape (top-level, `custom_claims`, `provider_id`, base58-validated)
-and derives a stable, obviously-non-deliverable pseudo-identity
+email. `lib/wallet-user.ts` extracts the wallet address **exclusively from
+the GoTrue `web3` identity** — the container populated server-side from
+the verified SIWS signature — across every shape GoTrue uses
+(`identity_data`, nested `custom_claims`, `provider_id`,
+base58-validated). Self-editable `user_metadata` is deliberately never a
+wallet source: otherwise any signed-in user could claim an arbitrary
+address and wear someone else's golden collar. From the verified address
+it derives a stable, obviously-non-deliverable pseudo-identity
 (`<address>@wallet.maneki.work`) so wallet users flow through the same
 pipeline; every email-sending path filters that domain out.
 
@@ -103,8 +108,9 @@ Holding SKR *is* the membership — no subscription, no checkout:
   `SKRbvo6Gf7GondiT3BbTfuRDPqLWei4j2Qy2NPGZhW3`, summed across accounts).
 - Balance ≥ threshold (default 1 SKR, configurable) → the golden collar:
   the daily swipe cap disappears and **Deep Scan** unlocks.
-- RPC failure is kept distinct from a zero balance: we never lock a user
-  out because *our* RPC call failed.
+- RPC failure is kept distinct from a zero balance (`balance: null`): the
+  app says "couldn't check" instead of claiming you hold no SKR. The pro
+  flag itself stays off until a read succeeds — the gate fails closed.
 
 The check runs server-side on the session's wallet — the client can't spoof
 it, and the wallet address itself came from a verified SIWS signature.
@@ -115,8 +121,10 @@ The pro feature SKR unlocks. Upload a resume (PDF, read once and discarded —
 only the extracted profile is kept), and the matching engine scores it
 against every live job with evidence-based LLM judgment. The engine predates
 the hackathon and is the private part of the platform (`lib/match-llm`,
-`lib/match-pipeline` are not in this repo); what's new here is the mobile
-surface and the wallet+SKR gating in front of it.
+`lib/match-pipeline` are not in this repo); the API contract the app
+consumes across that boundary is vendored in `lib/match-contract.ts`.
+What's new here is the mobile surface and the wallet+SKR gating in front
+of it.
 
 ## What is private, and why
 
@@ -125,13 +133,25 @@ engine's prompts and pipeline) is the product's moat and stays closed —
 the same way a hackathon project building on Stripe doesn't vendor Stripe.
 The boundary is the HTTPS API, and everything hackathon-specific sits on
 the open side of it, in this repo, verbatim from the production tree.
-(This repo is a source showcase, not a standalone build: a few imports
-point at private modules behind that boundary.)
+(This repo is a source showcase, not a standalone build. The imports that
+point at private platform modules behind that boundary are, exhaustively:
+`lib/supabase`, `lib/supabase-browser`, `lib/supabase-auth`,
+`lib/analytics`, `lib/saved-jobs-client`, `lib/job-url`,
+`lib/job-columns`, `lib/networks`, `lib/salary`, `lib/location-display`,
+`lib/job-content`, `lib/apply-url`, and the shared UI atoms
+`components/Logo`, `components/CompanyLogo`, `components/TrackedLink`,
+`components/SaveJobButton`.)
 
 ## The Android wrapper (`twa/`)
 
 Bubblewrap-generated Trusted Web Activity: `work.maneki.app`, start URL
 `/app`, digital asset links verified against
-`https://www.maneki.work/.well-known/assetlinks.json`. `twa/build.ps1`
-reproduces the release APK (gradle → zipalign → apksigner); the signing
-keystore and its password live outside the repo.
+`https://www.maneki.work/.well-known/assetlinks.json` (verbatim copy in
+`twa/assetlinks.json`). The release signing-cert SHA-256 is recorded in
+`twa-manifest.json` (`fingerprints`) and matches both the live asset
+links and `apksigner verify --print-certs` on the released APK — see
+SECURITY.md for the full verification chain. `twa/build.ps1` drives the
+Bubblewrap-generated Android project (regenerate it from
+`twa-manifest.json` with `bubblewrap update`; the generated gradle tree
+is not committed): gradle → zipalign → apksigner. The signing keystore
+and its password live outside the repo.

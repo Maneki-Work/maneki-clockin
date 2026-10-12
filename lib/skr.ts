@@ -23,7 +23,9 @@ type ParsedTokenAccount = {
 /**
  * Balance SKR complessivo di un wallet (somma di tutti i token account).
  * Ritorna null se l'RPC fallisce — chi chiama distingue "0 SKR" da
- * "impossibile verificare" (mai negare il pro per un errore di rete nostro).
+ * "impossibile verificare": la UI dice "couldn't check" invece di
+ * dichiarare zero, ma il pro resta chiuso finché una lettura non riesce
+ * (isSeekerPro(null) === false: il gate fallisce chiuso, mai aperto).
  */
 export async function getSkrBalance(owner: string): Promise<number | null> {
   try {

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "work.maneki.app",
+      "sha256_cert_fingerprints": [
+        "6F:5C:4C:9F:57:95:E8:86:55:D1:BF:F3:E7:B8:00:89:96:5F:CB:0B:E5:59:20:78:4D:B9:3E:66:D7:68:49:90"
+      ]
+    }
+  }
+]
